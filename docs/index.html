@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Virtual Threads</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"> <!-- Prism.js dark theme -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div id="slides-container"></div>
+
+    <div class="navigation">
+        <button id="prev" disabled>&larr;</button>
+        <button id="next">&rarr;</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script> <!-- Prism.js core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script> <!-- Prism.js autoloader for language detection -->
+    <script>
+        // Ensure the DOM is fully loaded before executing JavaScript
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to key DOM elements
+            const slidesContainer = document.getElementById('slides-container');
+            const prevButton = document.getElementById('prev');
+            const nextButton = document.getElementById('next');
+
+            // Initialize variables for slide management
+            let slides = []; // Array to hold all slide elements
+            let currentSlide = 0; // Index of the currently displayed slide
+
+            // Function to display a specific slide and manage navigation button states
+            function showSlide(index) {
+                // Hide all slides first
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('current');
+                    // Display the slide at the given index
+                    if (i === index) {
+                        slide.classList.add('current');
+                    }
+                });
+                // Disable/enable navigation buttons based on current slide position
+                prevButton.disabled = index === 0; // Disable 'Previous' if on the first slide
+                nextButton.disabled = index === slides.length - 1; // Disable 'Next' if on the last slide
+            }
+
+            // --- Slide Navigation Functions ---
+            function nextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            }
+
+            function goToStart() {
+                currentSlide = 0;
+                showSlide(currentSlide);
+            }
+
+            // Function to set up event listeners for navigation buttons
+            function setupNavigation() {
+                nextButton.addEventListener('click', nextSlide);
+                prevButton.addEventListener('click', prevSlide);
+            }
+
+            // Function to set up keyboard event listeners for navigation
+            function setupKeyboardNavigation() {
+                document.addEventListener('keydown', (event) => {
+                    switch (event.key) {
+                        case 'ArrowRight':
+                            nextSlide();
+                            break;
+                        case 'ArrowLeft':
+                            prevSlide();
+                            break;
+                        case 'Home':
+                        case 'R':
+                        case 'r':
+                            goToStart();
+                            break;
+                        default:
+                            return;
+                    }
+                    event.preventDefault();
+                });
+            }
+
+            // Fetch the Markdown content for the slides
+            fetch('slide.md')
+                .then(response => {
+                    // Check if the HTTP response was successful (status 200-299)
+                    if (!response.ok) {
+                        // If not, throw an error to be caught by the .catch block
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    // Parse the response as plain text
+                    return response.text();
+                })
+                .then(text => {
+                    // Split the Markdown text into individual slide contents using a specific delimiter (newline followed by '---' followed by newline)
+                    const slideContents = text.split(/\n---\n/);
+                    slideContents.forEach((content, index) => {
+                        // Create a new div element for each slide
+                        const slide = document.createElement('div');
+                        slide.className = 'slide'; // Assign the 'slide' class for styling
+
+                        // Parse Markdown content to HTML using marked.js
+                        const parsedContent = marked.parse(content);
+                        console.log('Parsed content for slide:', parsedContent); // Debugging log: shows the HTML output after Markdown parsing
+                        slide.innerHTML = parsedContent; // Inject the parsed HTML into the slide div
+                        slidesContainer.appendChild(slide); // Add the slide to the container
+                    });
+
+                    // After all slides are created, get a live NodeList of them
+                    slides = document.querySelectorAll('.slide');
+                    // Display the first slide if any slides were loaded
+                    if (slides.length > 0) {
+                        showSlide(0);
+                    }
+                    // Set up all navigation methods after slides are loaded
+                    setupNavigation();
+                    setupKeyboardNavigation();
+                    // Manually highlight code blocks after dynamic content is added
+                    Prism.highlightAll();
+                })
+                .catch(e => {
+                    // Catch any errors during fetching or parsing
+                    console.error('Error fetching or parsing slide.md:', e);
+                    // Display a user-friendly error message on the page
+                    slidesContainer.innerHTML = `
+                        <div class="slide current">
+                            <h2>Error</h2>
+                            <p>Could not load presentation content. Please check the console for details.</p>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>
