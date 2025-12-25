@@ -54,7 +54,7 @@
             fetch('slide.md')
                 .then(response => response.text())
                 .then(text => {
-                    const slideContents = text.split('---');
+                    const slideContents = text.split(/\n---\n/);
                     slideContents.forEach((content, index) => {
                         const slide = document.createElement('div');
                         slide.className = 'slide';
