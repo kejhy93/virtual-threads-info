@@ -52,14 +52,19 @@
             }
 
             fetch('slide.md')
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
                 .then(text => {
                     const slideContents = text.split(/\n---\n/);
                     slideContents.forEach((content, index) => {
                         const slide = document.createElement('div');
                         slide.className = 'slide';
                         const parsedContent = marked.parse(content);
-                        console.log('Parsed content for slide:', parsedContent); // Added console log
+                        console.log('Parsed content for slide:', parsedContent);
                         slide.innerHTML = parsedContent;
                         slidesContainer.appendChild(slide);
                     });
@@ -68,6 +73,15 @@
                         showSlide(0);
                     }
                     setupNavigation();
+                })
+                .catch(e => {
+                    console.error('Error fetching or parsing slide.md:', e);
+                    slidesContainer.innerHTML = `
+                        <div class="slide current">
+                            <h2>Error</h2>
+                            <p>Could not load presentation content. Please check the console for details.</p>
+                        </div>
+                    `;
                 });
         });
     </script>
