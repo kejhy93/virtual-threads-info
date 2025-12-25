@@ -10,7 +10,12 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: auto; /* Allow scrolling for tall content */
+}
+
+#slides-container {
+    width: 90%;
+    max-width: 900px;
 }
 
 .slide {
@@ -18,17 +23,11 @@ body {
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     padding: 40px;
-    width: 90%;
-    max-width: 900px;
-    position: absolute;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    box-sizing: border-box;
     display: none; /* Hide all slides by default */
 }
 
 .slide.current {
-    opacity: 1;
-    z-index: 1;
     display: block; /* Show current slide */
 }
 
@@ -47,7 +46,8 @@ h2 {
     margin-bottom: 20px;
 }
 
-p, li {
+p,
+li {
     font-size: 1.2em;
     line-height: 1.6;
 }
@@ -63,7 +63,8 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+th,
+td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
