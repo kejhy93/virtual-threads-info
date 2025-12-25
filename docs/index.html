@@ -101,6 +101,32 @@
                     setupNavigation();
                     // Manually highlight code blocks after dynamic content is added
                     Prism.highlightAll();
+
+                    // Add keyboard navigation
+                    document.addEventListener('keydown', (event) => {
+                        switch (event.key) {
+                            case 'ArrowRight': // Next slide
+                                if (currentSlide < slides.length - 1) {
+                                    currentSlide++;
+                                    showSlide(currentSlide);
+                                }
+                                break;
+                            case 'ArrowLeft': // Previous slide
+                                if (currentSlide > 0) {
+                                    currentSlide--;
+                                    showSlide(currentSlide);
+                                }
+                                break;
+                            case 'Home': // Go to first slide
+                            case 'R': // Go to first slide with 'R' key
+                                currentSlide = 0;
+                                showSlide(currentSlide);
+                                break;
+                            default:
+                                return; // Do nothing for other keys
+                        }
+                        event.preventDefault(); // Prevent default browser actions (e.g., scrolling)
+                    });
                 })
                 .catch(e => {
                     // Catch any errors during fetching or parsing
