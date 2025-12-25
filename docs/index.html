@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Virtual Threads</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div id="slides-container"></div>
+
+    <div class="navigation">
+        <button id="prev" disabled>&larr;</button>
+        <button id="next">&rarr;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slidesContainer = document.getElementById('slides-container');
+            const prevButton = document.getElementById('prev');
+            const nextButton = document.getElementById('next');
+            let slides = [];
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('current');
+                    if (i === index) {
+                        slide.classList.add('current');
+                    }
+                });
+                prevButton.disabled = index === 0;
+                nextButton.disabled = index === slides.length - 1;
+            }
+
+            function setupNavigation() {
+                nextButton.addEventListener('click', () => {
+                    if (currentSlide < slides.length - 1) {
+                        currentSlide++;
+                        showSlide(currentSlide);
+                    }
+                });
+
+                prevButton.addEventListener('click', () => {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        showSlide(currentSlide);
+                    }
+                });
+            }
+
+            fetch('slide.md')
+                .then(response => response.text())
+                .then(text => {
+                    const slideContents = text.split('---');
+                    slideContents.forEach((content, index) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        const parsedContent = marked.parse(content);
+                        console.log('Parsed content for slide:', parsedContent); // Added console log
+                        slide.innerHTML = parsedContent;
+                        slidesContainer.appendChild(slide);
+                    });
+                    slides = document.querySelectorAll('.slide');
+                    if (slides.length > 0) {
+                        showSlide(0);
+                    }
+                    setupNavigation();
+                });
+        });
+    </script>
+</body>
+</html>
