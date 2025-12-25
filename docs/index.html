@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Java Virtual Threads</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"> <!-- Prism.js dark theme -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -16,6 +17,8 @@
         <button id="next">&rarr;</button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script> <!-- Prism.js core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script> <!-- Prism.js autoloader for language detection -->
     <script>
         // Ensure the DOM is fully loaded before executing JavaScript
         document.addEventListener('DOMContentLoaded', () => {
@@ -96,6 +99,8 @@
                     }
                     // Set up navigation after slides are loaded and initialized
                     setupNavigation();
+                    // Manually highlight code blocks after dynamic content is added
+                    Prism.highlightAll();
                 })
                 .catch(e => {
                     // Catch any errors during fetching or parsing
