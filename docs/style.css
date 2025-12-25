@@ -1,125 +1,134 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap'); /* Import Google Font for consistent typography */
 
+/* --- General Body Styling (Dark Theme Base) --- */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #1a1a1a; /* Dark background */
-    color: #00ff00; /* Green text */
+    background-color: #1a1a1a; /* Dark background for the entire page */
+    color: #00ff00; /* Primary green text color for the body */
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: auto; /* Allow scrolling for tall content */
+    display: flex; /* Use flexbox for centering content */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    overflow: auto; /* Allow scrolling if content overflows viewport */
 }
 
+/* --- Slides Container Styling --- */
 #slides-container {
-    width: 90%;
-    max-width: 900px;
+    width: 90%; /* Slides container takes 90% of available width */
+    max-width: 900px; /* Limit maximum width for better readability on large screens */
 }
 
+/* --- Individual Slide Styling --- */
 .slide {
-    background-color: #2b2b2b; /* Slightly lighter dark background for slides */
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.3);
-    padding: 40px;
-    box-sizing: border-box;
-    display: none; /* Hide all slides by default */
+    background-color: #2b2b2b; /* Slightly lighter dark background for individual slides */
+    border-radius: 10px; /* Rounded corners for slides */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.3); /* Soft shadow for depth */
+    padding: 40px; /* Internal spacing within each slide */
+    box-sizing: border-box; /* Include padding in the element's total width/height */
+    display: none; /* Hide all slides by default (controlled by JavaScript) */
 }
 
+/* --- Current Slide Styling (Visible Slide) --- */
 .slide.current {
-    display: block; /* Show current slide */
+    display: block; /* Show the currently active slide */
 }
 
+/* --- Heading Styles --- */
 h1 {
-    font-size: 3em;
-    color: #66ff66; /* Vibrant green for h1 */
-    text-align: center;
+    font-size: 3em; /* Larger font size for main title */
+    color: #66ff66; /* Vibrant green for primary headings */
+    text-align: center; /* Center align main title */
     margin-top: 0;
 }
 
 h2 {
-    font-size: 2em;
-    color: #00ff00; /* Green for h2 */
-    border-bottom: 2px solid #66ff66; /* Green border */
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    font-size: 2em; /* Font size for subheadings */
+    color: #00ff00; /* Green for subheadings */
+    border-bottom: 2px solid #66ff66; /* Green underline for subheadings */
+    padding-bottom: 10px; /* Space between text and underline */
+    margin-bottom: 20px; /* Space below subheadings */
 }
 
+/* --- Paragraph and List Item Styles --- */
 p,
 li {
-    font-size: 1.2em;
-    line-height: 1.6;
-    color: #e0e0e0; /* Light grey for general text for readability */
+    font-size: 1.2em; /* Base font size for paragraphs and list items */
+    line-height: 1.6; /* Improved line spacing for readability */
+    color: #e0e0e0; /* Light grey for general text to ensure readability on dark background */
 }
 
 ul {
-    list-style-type: disc;
-    padding-left: 40px;
+    list-style-type: disc; /* Default disc bullet points for unordered lists */
+    padding-left: 40px; /* Indent list items */
 }
 
+/* --- Table Styles --- */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    width: 100%; /* Table takes full width of its container */
+    border-collapse: collapse; /* Collapse borders for a cleaner look */
+    margin-top: 20px; /* Space above tables */
 }
 
 th,
 td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #444; /* Darker border for tables */
-    color: #e0e0e0; /* Light grey for table text */
+    padding: 15px; /* Internal spacing within table cells */
+    text-align: left; /* Left align text in table cells */
+    border-bottom: 1px solid #444; /* Darker border for table rows */
+    color: #e0e0e0; /* Light grey text for table content */
 }
 
 th {
-    background-color: #008000; /* Darker green for table headers */
-    color: white;
+    background-color: #008000; /* Darker green background for table headers */
+    color: white; /* White text for table headers for contrast */
 }
 
 tr:nth-child(even) {
-    background-color: #3a3a3a; /* Alternate row background */
+    background-color: #3a3a3a; /* Alternate row background for better readability */
 }
 
+/* --- Code Block Styles --- */
 pre {
-    background-color: #0d0d0d; /* Very dark background for code */
-    color: #00ff00; /* Green for code text */
-    padding: 20px;
-    border-radius: 5px;
-    overflow-x: auto;
-    font-size: 1em;
+    background-color: #0d0d0d; /* Very dark background for code blocks */
+    color: #00ff00; /* Green text for code */
+    padding: 20px; /* Internal spacing in code blocks */
+    border-radius: 5px; /* Rounded corners for code blocks */
+    overflow-x: auto; /* Allow horizontal scrolling for long code lines */
+    font-size: 1em; /* Base font size for code */
 }
 
 code {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for code */
 }
 
+/* --- Navigation Button Styling --- */
 .navigation {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
+    position: fixed; /* Fixed position relative to the viewport */
+    bottom: 30px; /* Position from the bottom */
+    left: 50%; /* Start from the middle horizontally */
+    transform: translateX(-50%); /* Adjust to truly center horizontally */
+    z-index: 100; /* Ensure buttons are above other content */
 }
 
 button {
-    background-color: #008000; /* Green for buttons */
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 0 10px;
-    transition: background-color 0.3s ease;
+    background-color: #008000; /* Green background for navigation buttons */
+    color: white; /* White text for buttons */
+    border: none; /* No border */
+    padding: 15px 30px; /* Padding for button size */
+    font-size: 1em; /* Font size for button text */
+    cursor: pointer; /* Indicate clickable element */
+    border-radius: 5px; /* Rounded corners for buttons */
+    margin: 0 10px; /* Spacing between buttons */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
 }
 
 button:disabled {
     background-color: #444; /* Darker grey for disabled buttons */
-    color: #888; /* Lighter grey for disabled button text */
-    cursor: not-allowed;
+    color: #888; /* Lighter grey text for disabled buttons */
+    cursor: not-allowed; /* Indicate non-clickable element */
 }
 
 button:hover:not(:disabled) {
-    background-color: #006400; /* Slightly darker green on hover */
+    background-color: #006400; /* Slightly darker green on hover for enabled buttons */
 }
